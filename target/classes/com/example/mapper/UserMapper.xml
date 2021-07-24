@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.UserDao">
+
+    <!--根据房源id查询一条-->
+    <insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into user (name,password,salt) values(#{name},#{password},#{salt})
+    </insert>
+
+    <select id="findByname" parameterType="String" resultType="User">
+        select * from user where name=#{name}
+    </select>
+
+
+    <!--根据用户查询角色-->
+    <resultMap id="userMap" type="User">
+        <id column="uid" property="id"></id>
+        <result column="uname" property="name"/>
+        <collection property="role"  ofType="Role">
+            <id column="rid" property="id"></id>
+            <result column="rname" property="name"></result>
+        </collection>
+    </resultMap>
+    <select id="findRolebyusername" parameterType="String" resultMap="userMap">
+       select u.id uid,u.name uname,r.id rid,r.name rname from
+user u left join user_role ur
+   on u.id=ur.userid
+       left JOIN role r
+        on ur.roleid=r.id
+        where u.name=#{name}
+    </select>
+
+
+    <!--根据角色查询权限-->
+    <resultMap id="roleMap" type="com.example.domain.Role">
+        <id property="id" column="rid"></id>
+        <result column="rname" property="name"></result>
+        <collection property="pres" ofType="com.example.domain.Pres">
+            <id property="id" column="pid"></id>
+            <result property="name" column="pname"></result>
+            <result property="url" column="purl"></result>
+        </collection>
+    </resultMap>
+    <select id="findPresbyrolename" parameterType="Integer" resultMap="roleMap">
+       select r.id rid,r.name rname,p.id  pid,p.name pname,p.url purl from role r
+        LEFT JOIN role_pers rp
+        on r.id=rp.roleid
+        LEFT JOIN pers p
+        on p.id=rp.persid
+        where r.id=#{id}
+    </select>
+</mapper>
