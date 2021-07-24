@@ -75,14 +75,14 @@ public class ShiroConfig {
     public Realm getRealm(CacheManager ehcache){
         CustomerRealm customerRealm = new CustomerRealm();
 
-        //修改凭证校验匹配器
-        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+                //修改凭证校验匹配器
+                HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
 
-        //设置加密算法为md5
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");
+                //设置加密算法为md5
+                hashedCredentialsMatcher.setHashAlgorithmName("md5");
 
-        //设置散列算法
-        hashedCredentialsMatcher.setHashIterations(1024);
+                //设置散列算法
+                hashedCredentialsMatcher.setHashIterations(1024);
 
         customerRealm.setCredentialsMatcher(hashedCredentialsMatcher);
 
@@ -132,7 +132,7 @@ public class ShiroConfig {
         //加入缓存
         sessionManager.setCacheManager(cacheManager);
         //过期时间
-        sessionManager.setGlobalSessionTimeout(15*1000);      //15miao
+        sessionManager.setGlobalSessionTimeout(15*1000);      //15 miao
         //配置自定义会话Dao
         sessionManager.setSessionDAO(sessionDAO());
 
@@ -151,7 +151,7 @@ public class ShiroConfig {
         CookieRememberMeManager manager = new CookieRememberMeManager();
         SimpleCookie simpleCookie = new SimpleCookie("rememberme");
         //cookie记住时间
-        simpleCookie.setMaxAge(60);//三分钟
+        simpleCookie.setMaxAge(60);//默认为秒为单位  60秒
         manager.setCookie(simpleCookie);
         return manager;
     }

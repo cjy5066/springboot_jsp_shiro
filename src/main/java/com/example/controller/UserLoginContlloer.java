@@ -22,7 +22,7 @@ class UserLoginController {
      */
     @RequestMapping("/login")
     public String login(String name,String password ,boolean me){
-        System.out.println(me);
+        System.out.println("记住我："+me);
         /*
         在之前第一步是创建安全管理器，这里是直接使用utils。
             因为springboot继承shiro，所以在配置文件中已经先将安全管理器给了
